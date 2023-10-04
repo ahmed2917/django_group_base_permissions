@@ -44,10 +44,14 @@ class SignInViews(viewsets.ModelViewSet):
 
 class UserViews(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
-        queryset = User.objects.all()
-        serialized_data = UserSerializer(queryset, many=True)
-        if serialized_data:
-            return ok(data=serialized_data.data)
+        try:
+            queryset = User.objects.all()
+            serialized_data = UserSerializer(queryset, many=True)
+            if serialized_data:
+                return ok(data=serialized_data.data)
+        except Exception as er:
+            print(str(er))
+            return internal_server_error(data=[])
 
 
 class GroupViews(viewsets.ModelViewSet):
