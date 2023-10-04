@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 
 from .serializers import *
 from utils.response import *
+from utils.common_functions import *
 
 
 class SignUpViews(viewsets.ModelViewSet):
@@ -14,5 +15,7 @@ class SignUpViews(viewsets.ModelViewSet):
             instance.is_active = False
             instance.save()
             return ok(data=serialized_data.data)
-
-
+        else:
+            bad_request_msg = get_first_error_message_from_serializer_errors(serialized_data.errors,
+                                                                                'Bad request')
+            return bad_request(data=[], message=bad_request_msg)
