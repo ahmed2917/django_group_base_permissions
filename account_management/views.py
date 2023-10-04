@@ -55,6 +55,13 @@ class UserViews(viewsets.ModelViewSet):
             print(str(er))
             return internal_server_error(data=[])
 
+    def update(self, request, *args, **kwargs):
+        user_queryset = User.objects.filter(pk=request.data.get('id', 0))
+        serialized_data = UserSerializer(user_queryset.first(), data=request.data, partial=True)
+        if serialized_data.is_valid():
+            serialized_data.save()
+            return ok(data=serialized_data.data)
+
 
 class GroupViews(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
