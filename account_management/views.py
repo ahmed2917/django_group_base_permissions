@@ -49,6 +49,8 @@ class UserViews(viewsets.ModelViewSet):
             serialized_data = UserSerializer(queryset, many=True)
             if serialized_data:
                 return ok(data=serialized_data.data)
+            else:
+                return ok(data=[])
         except Exception as er:
             print(str(er))
             return internal_server_error(data=[])
