@@ -23,3 +23,10 @@ class SignUpViews(viewsets.ModelViewSet):
         except Exception as er:
             print(str(er))
             return internal_server_error(data=[])
+class GroupViews(viewsets.ModelViewSet):
+    def create(self, request, *args, **kwargs):
+        serialized_data = GroupSerializer(data=request.data)
+        if serialized_data.is_valid():
+            serialized_data.save()
+            return ok(data=serialized_data.data)
+
