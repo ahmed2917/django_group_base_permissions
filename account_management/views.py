@@ -42,6 +42,14 @@ class SignInViews(viewsets.ModelViewSet):
             return internal_server_error(data=[])
 
 
+class UserViews(viewsets.ModelViewSet):
+    def list(self, request, *args, **kwargs):
+        queryset = User.objects.all()
+        serialized_data = UserSerializer(queryset, many=True)
+        if serialized_data:
+            return ok(data=serialized_data.data)
+
+
 class GroupViews(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         try:
