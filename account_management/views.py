@@ -23,10 +23,32 @@ class SignUpViews(viewsets.ModelViewSet):
         except Exception as er:
             print(str(er))
             return internal_server_error(data=[])
+
+
+class SignInViews(viewsets.ModelViewSet):
+    def create(self, request, *args, **kwargs):
+        try:
+            user = authenticate(request.data.get('username', ''), request.data.get('password', ''))
+            if user:
+                token, _ = Token.objects.create(user=user)
+                data = {"token": token,
+                        'username': request.data.get('username', '')}
+                return ok(data=data)
+            else:
+                return bad_request(data=[], message="Invalid credentials")
+
+        except Exception as er:
+            print(str(er))
+            return internal_server_error(data=[])
+
+
 class GroupViews(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
-        serialized_data = GroupSerializer(data=request.data)
-        if serialized_data.is_valid():
-            serialized_data.save()
-            return ok(data=serialized_data.data)
-
+        try:
+            serialized_data = GroupSerializer(data=request.data)
+            if serialized_data.is_valid():
+                serialized_data.save()
+                return ok(data=serialized_data.data)
+        except Exception as er:
+            print(er)
+            return internal_server_error(data=[])
