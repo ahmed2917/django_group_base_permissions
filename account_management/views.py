@@ -11,6 +11,8 @@ class SignUpViews(viewsets.ModelViewSet):
         serialized_data = UserSerializer(data=request.data)
         if serialized_data.is_valid():
             instance = serialized_data.save()
+            instance.is_active = False
+            instance.save()
             return ok(data=serialized_data.data)
 
 
