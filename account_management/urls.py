@@ -10,6 +10,6 @@ urlpatterns = [
                                      "post": "create",
                                      "delete": "destroy"})),
 
-    path('group/create/', GroupViews.as_view({'post': 'create'})),
+    path('group/', GroupViews.as_view({'post': 'create'})),
 
 ]
