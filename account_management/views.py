@@ -30,7 +30,7 @@ class SignUpViews(viewsets.ModelViewSet):
 class SignInViews(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         try:
-            user = authenticate(request.data.get('username', ''), request.data.get('password', ''))
+            user = authenticate(username=request.data.get('username', ''), password=request.data.get('password', ''))
             if user:
                 token, _ = Token.objects.create(user=user)
                 data = {"token": token,
