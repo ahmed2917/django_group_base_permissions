@@ -69,9 +69,13 @@ class UserViews(viewsets.ModelViewSet):
             return internal_server_error(data=[])
 
     def destroy(self, request, *args, **kwargs):
-        user_queryset = User.objects.get(pk=request.query_params.get('id', 0))
-        user_queryset.delete()
-        return ok(data=[])
+        try:
+            user_queryset = User.objects.get(pk=request.query_params.get('id', 0))
+            user_queryset.delete()
+            return ok(data=[])
+        except Exception as er:
+            print(er)
+            return internal_server_error(data=[])
 
 
 class GroupViews(viewsets.ModelViewSet):
