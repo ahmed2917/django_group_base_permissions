@@ -15,6 +15,8 @@ class SignUpViews(viewsets.ModelViewSet):
                 instance = serialized_data.save()
                 instance.is_active = False
                 instance.save()
+                instance.set_password(instance.password)
+                instance.save()
                 return ok(data=serialized_data.data)
             else:
                 bad_request_msg = get_first_error_message_from_serializer_errors(serialized_data.errors,
