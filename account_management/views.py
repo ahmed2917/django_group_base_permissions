@@ -32,8 +32,8 @@ class SignInViews(viewsets.ModelViewSet):
         try:
             user = authenticate(username=request.data.get('username', ''), password=request.data.get('password', ''))
             if user:
-                token, _ = Token.objects.create(user=user)
-                data = {"token": token,
+                token, _ = Token.objects.get_or_create(user=user)
+                data = {"token": str(token),
                         'username': request.data.get('username', '')}
                 return ok(data=data)
             else:
