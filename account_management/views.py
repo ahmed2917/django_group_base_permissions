@@ -68,6 +68,11 @@ class UserViews(viewsets.ModelViewSet):
             print(str(er))
             return internal_server_error(data=[])
 
+    def destroy(self, request, *args, **kwargs):
+        user_queryset = User.objects.get(pk=request.query_params.get('id', 0))
+        user_queryset.delete()
+        return ok(data=[])
+
 
 class GroupViews(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
