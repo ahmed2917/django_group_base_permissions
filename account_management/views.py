@@ -49,7 +49,9 @@ class UserViews(viewsets.ModelViewSet):
         try:
             serialized_data = UserSerializer(data=request.data)
             if serialized_data.is_valid():
-                serialized_data.save()
+                instance = serialized_data.save()
+                instance.set_password(instance.password)
+                instance.save()
                 return ok(data=serialized_data.data)
         except Exception as er:
             print(str(er))
@@ -110,6 +112,27 @@ class GroupViews(viewsets.ModelViewSet):
         except Exception as er:
             print(str(er))
             return internal_server_error(data=[])
+
+    def update(self, request, *args, **kwargs):
+        try:
+            group_queryset = Group.objects.filter(pk=request.data.get('id', 0))
+            serialized_data = GroupSerializer(group_queryset.first(), data=request.data, partial=True)
+            if serialized_data.is_valid():
+                serialized_data.save()
+                return ok(data=serialized_data.data)
+        except Exception as er:
+            print(str(er))
+            return internal_server_error(data=[])
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            user_queryset = Group.objects.get(pk=request.query_params.get('id', 0))
+            user_queryset.delete()
+            return ok(data=[])
+        except Exception as er:
+            print(er)
+            return internal_server_error(data=[])
+
 
 class PermissionViews(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
