@@ -45,6 +45,16 @@ class SignInViews(viewsets.ModelViewSet):
 
 
 class UserViews(viewsets.ModelViewSet):
+    def create(self, request, *args, **kwargs):
+        try:
+            serialized_data = UserSerializer(data=request.data)
+            if serialized_data.is_valid():
+                serialized_data.save()
+                return ok(data=serialized_data.data)
+        except Exception as er:
+            print(str(er))
+            return internal_server_error(data=[])
+
     def list(self, request, *args, **kwargs):
         try:
             queryset = User.objects.all()
