@@ -98,3 +98,15 @@ class GroupViews(viewsets.ModelViewSet):
         except Exception as er:
             print(er)
             return internal_server_error(data=[])
+class PermissionViews(viewsets.ModelViewSet):
+    def list(self, request, *args, **kwargs):
+        try:
+            queryset = Permission.objects.all()
+            serialized_data = PermissionSerializer(queryset, many=True)
+            if serialized_data:
+                return ok(data=serialized_data.data)
+            else:
+                return ok(data=[])
+        except Exception as er:
+            print(str(er))
+            return internal_server_error(data=[])
