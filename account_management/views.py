@@ -146,3 +146,19 @@ class PermissionViews(viewsets.ModelViewSet):
         except Exception as er:
             print(str(er))
             return internal_server_error(data=[])
+
+    def create(self, request, *args, **kwargs):
+        auth_user = request.user.has_perm("auth.add_permission")
+        if auth_user:
+            try:
+                serialized_data = PermissionSerializer(data=request.data)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    return ok(data=serialized_data.data)
+                else:
+                    return ok(data=[])
+            except Exception as er:
+                print(str(er))
+                return internal_server_error(data=[])
+        else:
+            return bad_request(data=[])
