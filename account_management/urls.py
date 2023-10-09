@@ -11,5 +11,10 @@ urlpatterns = [
                                      'delete': 'destroy'})),
 
     path('group/', GroupViews.as_view({'post': 'create'})),
+    path('group/', GroupViews.as_view({'get': 'list',
+                                       'patch': 'update',
+                                       'post': 'create',
+                                       'delete': 'destroy'})),
+
 
 ]
