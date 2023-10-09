@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
+from rest_framework.permissions import AllowAny
 # from django.contrib.auth.models import Permission
 
 from .serializers import *
