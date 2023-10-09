@@ -16,6 +16,7 @@ urlpatterns = [
                                        'post': 'create',
                                        'delete': 'destroy'})),
 
-    path('permission/', PermissionViews.as_view({'get': 'list'})),
+    path('permission/', PermissionViews.as_view({'get': 'list',
+                                                 'post': 'create'})),
 
 ]
