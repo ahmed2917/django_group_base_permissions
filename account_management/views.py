@@ -10,6 +10,8 @@ from utils.common_functions import *
 
 
 class SignUpViews(viewsets.ModelViewSet):
+    permission_classes = (AllowAny,)
+
     def create(self, request, *args, **kwargs):
         try:
             serialized_data = UserSerializer(data=request.data)
@@ -30,6 +32,8 @@ class SignUpViews(viewsets.ModelViewSet):
 
 
 class SignInViews(viewsets.ModelViewSet):
+    permission_classes = (AllowAny,)
+
     def create(self, request, *args, **kwargs):
         try:
             user = authenticate(username=request.data.get('username', ''), password=request.data.get('password', ''))
