@@ -16,5 +16,6 @@ urlpatterns = [
                                        'post': 'create',
                                        'delete': 'destroy'})),
 
+    path('permission/', PermissionViews.as_view({'get': 'list'})),
 
 ]
